@@ -7,13 +7,18 @@ Usage: addplayedframe.sh [option] DIRPATH TIMEVAL[sql/epoch]
 
 options:
 -h display this help file
+
 -m minimum subdirectory depth from top directory of music library to music files (default: 1)
+
 -n specify TXXX frame name (default: Songs-DB_Custom1)
+
 -q quiet - hide terminal output
+
 -r specify upper limit (default: 120) of random number (of days) to be generated for each tag;
    the number is subtracted from the current date, then added as a numerical date value to the tag
    frame
 -t specify epoch or sql time as the random numerical date value (default: sql)
+
 
 Modifies tags to enable other utilities to create custom playlists using "LastPlayedDate" history.
 Tag version required is id3v2.3.
