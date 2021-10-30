@@ -3,7 +3,7 @@ A kid3-based utility to add LastPlayedDate data directly to tags.
 A kid3-based utility to add a custom TXXX frame for writing LastPlayedDate data directly to tags.
 Generates and applies a random LastPlayedDate for each tag, with TIMEVAL either sql or epoch time
 
-Usage: addplayedframe.sh [option] DIRPATH TIMEVAL[sql/epoch]
+Usage: addplayedframe.sh [option] DIRPATH TIMEVAL
 
 options:
 -h display this help file
