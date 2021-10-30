@@ -17,8 +17,6 @@ options:
 -r specify upper limit (default: 120) of random number (of days) to be generated for each tag;
    the number is subtracted from the current date, then added as a numerical date value to the tag
    frame
--t specify epoch or sql time as the random numerical date value (default: sql)
-
 
 Modifies tags to enable other utilities to create custom playlists using "LastPlayedDate" history.
 Tag version required is id3v2.3.
@@ -27,7 +25,7 @@ Requires kid3. Using the kid3-cli utility, scans all music files in the DIRPATH 
 for existence of the frame name identified (default is Songs-DB_Custom1). If it does not exist,
 creates a TXXX frame with that name, then assigns a random LastTimePlayed time value for each tag.
 
-Numerical time value type can be changed to epoch time (default is SQL time).
+Parameter TIMEVAL must be specified as either sql or epoch.
 
 Time to complete varies by processor and can take time for large libraries. Check tag output
 quality more quickly by testing on a subdirectory first.
