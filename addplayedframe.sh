@@ -6,7 +6,7 @@ cat << 'EOF'
 A kid3-based utility to add a custom TXXX frame for writing LastPlayedDate data directly to tags.
 Generates and applies a random LastPlayedDate for each tag, with TIMEVAL either sql or epoch time
 
-Usage: addplayedframe.sh [option] DIRPATH TIMEVAL[sql/epoch]
+Usage: addplayedframe.sh [option] DIRPATH TIMEVAL
 
 options:
 -h display this help file
@@ -24,6 +24,7 @@ Tag version required is id3v2.3.
 Requires kid3. Using the kid3-cli utility, scans all music files in the DIRPATH and checks each 
 for existence of the frame name identified (default is Songs-DB_Custom1). If it does not exist,
 creates a TXXX frame with that name, then assigns a random LastTimePlayed time value for each tag.
+Parameter TIMEVAL must be specified as either sql or epoch.
 
 Numerical time value type can be changed to epoch time (default is SQL time).
 
