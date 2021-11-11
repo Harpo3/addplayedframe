@@ -13,9 +13,6 @@ options:
 -m minimum subdirectory depth from top directory of music library to music files (default: 1)
 -n specify TXXX frame name (default: Songs-DB_Custom1)
 -q quiet - hide terminal output
--r specify upper limit (default: 120) of random number (of days) to be generated for each tag;
-   the number is subtracted from the current date, then added as a numerical date value to the tag
-   frame
 
 Modifies tags to enable other utilities to create custom playlists using "LastPlayedDate" history.
 Tag version required is id3v2.3.
@@ -23,11 +20,20 @@ Tag version required is id3v2.3.
 Requires kid3. Using the kid3-cli utility, scans all music files in the DIRPATH and checks each 
 for existence of the frame name identified (default is Songs-DB_Custom1). If it does not exist,
 creates a TXXX frame with that name, then assigns a random LastTimePlayed time value for each tag.
+Upper date limit will vary, depending on the rating for the given track.
 
 Parameter TIMEVAL must be specified as either sql or epoch.
 
 Time to complete varies by processor and can take time for large libraries. Check tag output
 quality more quickly by testing on a subdirectory first.
+
+Default ages by rating group:
+last played age threshold (in days):
+group1=900 #(popularimeter 1-32)
+group2=600 #(popularimeter 33-96)
+group3=300 #(popularimeter 97-160)
+group4=180 #(popularimeter 161-228)
+group5=50 #(popularimeter 229-255)
 EOF
 }
 
@@ -37,7 +43,7 @@ framename="Songs-DB_Custom1"
 upperlimit=120
 
 # Use getops to set any user-assigned options
-while getopts ":hm:n:qr:" opt; do
+while getopts ":hm:n:q" opt; do
   case $opt in
     h) 
       print_help
@@ -50,9 +56,6 @@ while getopts ":hm:n:qr:" opt; do
       ;;
     q)      
       showdisplay=0 >&2
-      ;;
-    r)
-      upperlimit=$OPTARG
       ;;
     \?)
       printf 'Invalid option: -%s\n' "$OPTARG"
@@ -92,7 +95,13 @@ sp="/-\|"
 echo -n ' '
 
 # add random value for LastPlayedDate
-while IFS= read -r line; do   
+while IFS= read -r line; do
+    popmfound=$(kid3-cli -c "get POPM.Rating" "$line")
+    if [[ "$popmfound" -ge "$group5low" ]]; then upperlimit=60; 
+    elif [[ "$popmfound" -ge "$group4low" ]]; then upperlimit=120; 
+    elif [[ "$popmfound" -ge "$group3low" ]]; then upperlimit=180; 
+    elif [[ "$popmfound" -ge "$group2low" ]]; then upperlimit=360; 
+    elif [[ "$popmfound" -ge "$group1low" ]]; then upperlimit=730; fi
     exists=$(kid3-cli -c "get ""$framename" "$line")
     if [ -z "$exists" ]
     then
